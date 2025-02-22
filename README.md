@@ -109,18 +109,20 @@ randoo [options] [--] command [args...]
 Shuffle all arguments before executing the command:
 
 ```bash
-randoo ls -la file1.txt file2.txt file3.txt
+randoo cat file1.txt file2.txt file3.txt
 ```
 
-This will shuffle the order of `file1.txt`, `file2.txt`, and `file3.txt` before calling `ls -la`.
+This will shuffle the order of `file1.txt`, `file2.txt`, and `file3.txt` before concatenating them.
 
 ### 2. Using a Single Delimiter
 
 Shuffle only the arguments after a specified token:
 
 ```bash
-randoo -s START echo START arg1 arg2 arg3
+randoo -s START echo a b c START arg1 arg2 arg3
 ```
+
+Example output: `a b c arg2 arg3 arg1`
 
 - **Behavior:**
     - `START` is used as the start delimiter.
@@ -132,14 +134,15 @@ randoo -s START echo START arg1 arg2 arg3
 Shuffle a specific range of arguments:
 
 ```bash
-randoo -s START -e END echo START arg1 arg2 arg3 END extraArg
+randoo -s START -e END echo a b c START arg1 arg2 arg3 END d e
 ```
+
+Example output: `a b c arg2 arg3 arg1 d e`
 
 - **Behavior:**
     - `START` marks the beginning and `END` marks the end of the segment to be shuffled.
     - Only the arguments between `START` and `END` (`arg1 arg2 arg3`) are randomized.
     - Both delimiters are stripped from the final command line.
-    - `extraArg` remains unshuffled.
 
 ### 4. Reading Arguments from Stdin
 

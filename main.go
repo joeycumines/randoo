@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	cryptoRand "crypto/rand"
 	"encoding/binary"
 	"errors"
@@ -258,21 +259,14 @@ func (x *CLI) prepScanLines() error {
 	var lines []string
 
 	if x.Input != nil {
-		for {
-			var line string
-			_, err := fmt.Fscanln(x.Input, &line)
+		scanner := bufio.NewScanner(x.Input)
 
-			if err != nil && !errors.Is(err, io.EOF) {
-				return err
-			}
+		for scanner.Scan() {
+			lines = append(lines, scanner.Text())
+		}
 
-			if err == nil || line != `` {
-				lines = append(lines, line)
-			}
-
-			if err != nil {
-				break
-			}
+		if err := scanner.Err(); err != nil {
+			return err
 		}
 	}
 
